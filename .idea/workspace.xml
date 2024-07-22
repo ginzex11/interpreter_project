@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e66a6d65-23f0-4d0b-b0e2-e155f13f45c8" name="Changes" comment="updated gitignore">
-      <change afterPath="$PROJECT_DIR$/REPL.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interpreter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lexer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lexer_tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e66a6d65-23f0-4d0b-b0e2-e155f13f45c8" name="Changes" comment="files were created but only lexer was updated so far.&#10;still not working tho gotta finish tests" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,12 +159,44 @@
       <option name="project" value="LOCAL" />
       <updated>1721671672857</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="files were created but only lexer was updated so far.&#10;still not working tho gotta finish tests">
+      <option name="closed" value="true" />
+      <created>1721677325041</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721677325041</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="lexer_update_branch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="base project version" />
     <MESSAGE value="updated gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated gitignore" />
+    <MESSAGE value="files were created but only lexer was updated so far.&#10;still not working tho gotta finish tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="files were created but only lexer was updated so far.&#10;still not working tho gotta finish tests" />
   </component>
 </project>
