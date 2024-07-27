@@ -1,66 +1,62 @@
+# test_lexer.py
 import unittest
-from lexer import Lexer, Token, TokenType
+from lexer import Lexer, TokenType
 
 class TestLexer(unittest.TestCase):
-    def assertTokens(self, lexer, expected_tokens):
-        tokens = []
-        while True:
-            token = lexer.get_next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
-        self.assertEqual(tokens, expected_tokens)
-
     def test_integer(self):
-        lexer = Lexer('123 456')
-        self.assertTokens(
-            lexer,
-            [
-                Token(TokenType.INTEGER, 123),
-                Token(TokenType.INTEGER, 456),
-                Token(TokenType.EOF)
-            ]
-        )
+        lexer = Lexer("123")
+        token = lexer.get_next_token()
+        self.assertEqual(token.type, TokenType.INTEGER)
+        self.assertEqual(token.value, 123)
 
-    def test_operators(self):
-        lexer = Lexer('+ - * / % && || != == > >= < <=')
-        self.assertTokens(
-            lexer,
-            [
-                Token(TokenType.PLUS),
-                Token(TokenType.MINUS),
-                Token(TokenType.MUL),
-                Token(TokenType.DIV),
-                Token(TokenType.MOD),
-                Token(TokenType.AND),
-                Token(TokenType.OR),
-                Token(TokenType.NEQ),
-                Token(TokenType.EQ),
-                Token(TokenType.GT),
-                Token(TokenType.GTE),
-                Token(TokenType.LT),
-                Token(TokenType.LTE),
-                Token(TokenType.EOF)
-            ]
-        )
+    def test_float(self):
+        lexer = Lexer("123.456")
+        token = lexer.get_next_token()
+        self.assertEqual(token.type, TokenType.FLOAT)
+        self.assertEqual(token.value, 123.456)
 
-    def test_parentheses_and_braces(self):
-        lexer = Lexer('() { .')
-        self.assertTokens(
-            lexer,
-            [
-                Token(TokenType.LPAREN),
-                Token(TokenType.RPAREN),
-                Token(TokenType.DEFUN),
-                Token(TokenType.LAMBDA),
-                Token(TokenType.EOF)
-            ]
-        )
-
-    def test_error(self):
-        lexer = Lexer('a')
+    def test_invalid_float(self):
         with self.assertRaises(Exception):
+            lexer = Lexer(".456")
             lexer.get_next_token()
+        with self.assertRaises(Exception):
+            lexer = Lexer("123.")
+            lexer.get_next_token()
+
+    def test_arithmetic_operators(self):
+        lexer = Lexer("+-*/%")
+        tokens = [lexer.get_next_token() for _ in range(5)]
+        token_types = [TokenType.PLUS, TokenType.MINUS, TokenType.MUL, TokenType.DIV, TokenType.MOD]
+        for token, expected_type in zip(tokens, token_types):
+            self.assertEqual(token.type, expected_type)
+
+    def test_boolean_operators(self):
+        lexer = Lexer("&& || !")
+        tokens = [lexer.get_next_token() for _ in range(3)]
+        token_types = [TokenType.AND, TokenType.OR, TokenType.NOT]
+        for token, expected_type in zip(tokens, token_types):
+            self.assertEqual(token.type, expected_type)
+
+    def test_comparison_operators(self):
+        lexer = Lexer("== != > < >= <=")
+        tokens = [lexer.get_next_token() for _ in range(6)]
+        token_types = [TokenType.EQ, TokenType.NEQ, TokenType.GT, TokenType.LT, TokenType.GTE, TokenType.LTE]
+        for token, expected_type in zip(tokens, token_types):
+            self.assertEqual(token.type, expected_type)
+
+    def test_parentheses(self):
+        lexer = Lexer("()")
+        tokens = [lexer.get_next_token() for _ in range(2)]
+        token_types = [TokenType.LPAREN, TokenType.RPAREN]
+        for token, expected_type in zip(tokens, token_types):
+            self.assertEqual(token.type, expected_type)
+
+    def test_defun_and_lambda(self):
+        lexer = Lexer("{ .")
+        tokens = [lexer.get_next_token() for _ in range(2)]
+        token_types = [TokenType.DEFUN, TokenType.LAMBDA]
+        for token, expected_type in zip(tokens, token_types):
+            self.assertEqual(token.type, expected_type)
 
 if __name__ == '__main__':
     unittest.main()

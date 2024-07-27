@@ -1,8 +1,7 @@
 # lexer.py
-import re
-
 class TokenType:
     INTEGER = 'INTEGER'
+    FLOAT = 'FLOAT'
     BOOLEAN = 'BOOLEAN'
     IDENTIFIER = 'IDENTIFIER'
     PLUS = 'PLUS'
@@ -36,8 +35,9 @@ class Token:
 class Lexer:
     def __init__(self, text):
         self.text = text
-        self.pos = 0
-        self.current_char = self.text[self.pos]
+        self.pos = -1
+        self.current_char = None
+        self.advance()
 
     def advance(self):
         self.pos += 1
@@ -50,20 +50,30 @@ class Lexer:
         while self.current_char is not None and self.current_char.isspace():
             self.advance()
 
-    def integer(self):
+    def number(self):
         result = ''
-        while self.current_char is not None and self.current_char.isdigit():
+        dot_count = 0
+        while self.current_char is not None and (self.current_char.isdigit() or self.current_char == '.'):
+            if self.current_char == '.':
+                dot_count += 1
+                if dot_count > 1:
+                    self.error()
             result += self.current_char
             self.advance()
-        return int(result)
+        if result.startswith('.') or result.endswith('.'):
+            self.error()
+        if dot_count == 0:
+            return Token(TokenType.INTEGER, int(result))
+        else:
+            return Token(TokenType.FLOAT, float(result))
 
     def get_next_token(self):
         while self.current_char is not None:
             if self.current_char.isspace():
                 self.skip_whitespace()
                 continue
-            if self.current_char.isdigit():
-                return Token(TokenType.INTEGER, self.integer())
+            if self.current_char.isdigit() or self.current_char == '.':
+                return self.number()
             if self.current_char == '+':
                 self.advance()
                 return Token(TokenType.PLUS)
@@ -123,13 +133,21 @@ class Lexer:
                 return Token(TokenType.DEFUN)
             if self.current_char == '.':
                 self.advance()
-                return Token(TokenType.LAMBDA)
+                if self.current_char.isdigit():
+                    return self.number()
+                self.error()
+            if self.current_char.isalpha():
+                return self.identifier()
             self.error()
 
         return Token(TokenType.EOF)
 
+    def identifier(self):
+        result = ''
+        while self.current_char is not None and (self.current_char.isalnum() or self.current_char == '_'):
+            result += self.current_char
+            self.advance()
+        return Token(TokenType.IDENTIFIER, result)
+
     def error(self):
-        raise Exception('Invalid character')
-
-
-
+        raise Exception(f"Invalid character: '{self.current_char}'")
