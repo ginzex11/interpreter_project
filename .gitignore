@@ -1,0 +1,21 @@
+# Virtual environment
+.venv/
+
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE specific files
+.idea/
+
+# Environment files
+.env
+*.env
+
+# Misc
+*.log
+*.sqlite3
+*.db
+
